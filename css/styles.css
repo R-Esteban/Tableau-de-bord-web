@@ -19,3 +19,9 @@ nav a {
     border-right: #ffffff 3px solid;
     padding-right: 10px;
 }
+
+nav {
+    display: inline-block;
+    width: 800px;
+    text-align: left;
+}
