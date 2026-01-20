@@ -1,17 +1,17 @@
 .hero {
-    background-color: #35524a;
+    background-color: #ffffff;
     text-align: center;
     padding: 60px 20px;
 }
 
 .hero h1 {
     margin-bottom: 10px;
-    color: #ffd8be;
+    color: #000000;
 }
 
 .hero p {
     margin-bottom: 30px;
-    color: #ffd8be;
+    color: #000000;
 }
 
 .buttons {
@@ -23,26 +23,26 @@
 .btn {
     padding: 12px 20px;
     text-decoration: none;
-    color: #ffd8be;
+    color: #000000;
 }
 
 .btn-primary {
-    background-color: #627c85;
+    background-color: #000000;
 }
 
 .btn-secondary {
-    background-color: #627c85;
+    background-color: #000000;
 }
 
 .stats {
     display: flex;
     justify-content: space-around;
     padding: 40px;
-    background-color: #35524a;
+    background-color: #0a1ba2;
 }
 
 .card {
-    background-color: #627c85;
+    background-color: #ffffff;
     padding: 20px;
     width: 180px;
     text-align: center;
@@ -51,44 +51,39 @@
 
 .card h2 {
     margin-bottom: 10px;
-    color: #ffeedd;
+    color: #000000;
 }
 
 .card p {
-    color: #ffeedd;
+    color: #000000;
 }
 
 .card h2 {
     margin-bottom: 10px;
-    color: #ffeedd;
+    color: #000000;
 }
 
 .card.alert {
-    background-color: #627c85;
+    background-color: #ff0000;
 }
 
 .info {
     padding: 30px;
     text-align: center;
-    background-color: #35524a;
+    background-color: #ffffff;
 }
 
 .card p {
-    color: #ffeedd;
+    color: #000000;
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #35524a;
+    background-color: #000000;
 }
 
 .logo {
-    height: 50px;
+    height: 60;
     font-size: large
 }
-
-
-
-*/il faudrait rajouter de belles couleurs pour rendre le site plus beau et reussir a mettre le .info en bas de la page (j'ai pas réussi) 
- ah et aussi pareil si tu y' arrives j' aimerais bien mettre les .card et les .btn avec des coins arrondis*/
