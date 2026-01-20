@@ -5,8 +5,8 @@
 }
 
 header {
-    background-color: #35524a;
-    color: #ffd8be;
+    background-color: #000000;
+    color: #ffffff;
     padding: 15px 40px;
     display: flex;
     justify-content: space-between;
@@ -14,7 +14,7 @@ header {
 }
 
 header nav a {
-    color: #ffd8be;
+    color: #ffffff;
     text-decoration: none;
     margin-left: 20px;
 }
@@ -24,8 +24,8 @@ header nav a:hover {
 }
 
 footer {
-    background-color: #35524a;
-    color: #ffd8be;
+    background-color: #000000;
+    color: #ffffff;
     text-align: center;
     padding: 10px 0;
     position: fixed;
@@ -36,11 +36,16 @@ footer {
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #35524a;
+    background-color: #000000;
+}
+
+nav a.active {
+    text-decoration: underline;
+    color: #ffffff;
 }
 
 .poste {
-    background-color: #627c85;
+    background-color: #ffffff;
     padding: 20px;
     width: 180px;
     text-align: center;
@@ -48,17 +53,84 @@ body {
 }
 
 .info_v {
-    background-color: #35524a;
-    color: #ffd8be;
+    background-color: #000000;
+    color: #000000;
     text-align: center;
     padding: 60px 20px;
 }
 
-.logo {
-    font-size: large
+.hero {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 60px 20px;
 }
 
-nav a.active {
-    text-decoration: underline;
-    color: #ffeedd;
+.hero h1 {
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.hero p {
+    margin-bottom: 30px;
+    color: #000000;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.btn-primary {
+    background-color: #000000;
+}
+
+.btn-secondary {
+    background-color: #000000;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+    background-color: #0a1ba2;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 180px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.card.alert {
+    background-color: #ff0000;
+}
+
+.info {
+    padding: 30px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.card p {
+    color: #000000;
+}
+
+
+.logo {
+    height: 60;
+    font-size: large
 }
