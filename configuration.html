@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>CESIBike – Configuration</title>
     <title>Production CESI Bike</title>
+    <link rel="stylesheet" href="css/esssai.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -11,11 +13,96 @@
     <header>
         <div class="logo">Production CESI Bike</div>
         <nav>
-            <a href="accueil.html">Accueil</a>
-            <a href="configuration.html" class="active">Configuration</a>
+            <a href="accueil.html" class="active">Accueil</a>
+            <a href="configuration.html">Configuration</a>
             <a href="visualisation.html">Visualisation</a>
         </nav>
+        <hr>
+
+        <section>
+            <h2>Configuration générale</h2>
+            <label for="nbPostes">Nombre de postes de travail :</label>
+            <input type="number" id="nbPostes" name="nbPostes" min="1">
+            <button>Valider</button>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>Poste 1</h2>
+
+            <label for="nbEtapesPoste1">Nombre d’étapes :</label>
+            <input type="number" id="nbEtapesPoste1" name="nbEtapesPoste1" min="1">
+        </section>
+
+        <hr>
+
+        <section>
+            <h3>Stock initial des pièces nécessaires</h3>
+
+            <button>Importer fichier CSV</button>
+
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Nom de la pièce</th>
+                        <th>Quantité en stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="Ex : VIS XR33"></td>
+                        <td><input type="number" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="Ex : Pédalier VR12"></td>
+                        <td><input type="number" min="0"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button>Ajouter une pièce</button>
+        </section>
+
+        <hr>
+
+        <section>
+            <h3>Étapes de l’assemblage</h3>
+
+            <button>Importer fichier CSV</button>
+
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Numéro de l’étape</th>
+                        <th>Nom de la pièce</th>
+                        <th>Quantité utilisée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="number" min="1"></td>
+                        <td><input type="text" placeholder="VIS XR33"></td>
+                        <td><input type="number" min="1"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" min="1"></td>
+                        <td><input type="text" placeholder="Pédalier VR12"></td>
+                        <td><input type="number" min="1"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button>Ajouter une étape</button>
+        </section>
+
+        <hr>
+
         <footer>
-            <p>&copy; 2026 Production CESI Bike. Tous droits réservés.</p>
+            <button>Précédent</button>
+            <button>Suivant</button>
         </footer>
+
 </body>
+
+</html>
