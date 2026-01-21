@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <title>CESIBike – Configuration</title>
-    <title>Production CESI Bike</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-
-<body>
-    <header>
-        <div class="logo">Production CESI Bike</div>
-        <nav>
-            <a href="accueil.html" class="active">Accueil</a>
-            <a href="configuration.html">Configuration</a>
-            <a href="visualisation.html">Visualisation</a>
-        </nav>
-        <hr>
+<main>
+    
+      
 
         <section>
             <h2>Configuration générale</h2>
@@ -97,11 +82,4 @@
 
         <hr>
 
-        <footer>
-            <button>Précédent</button>
-            <button>Suivant</button>
-        </footer>
-
-</body>
-
-</html>
+</main>

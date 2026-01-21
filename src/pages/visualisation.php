@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Production CESI Bike</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/visualisation.css">
-</head>
-
-<body>
-    <header>
-        <div class="logo">Production CESI Bike</div>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="configuration.html">Configuration</a>
-            <a href="visualisation.html" class="active">Visualisation</a>
-        </nav>
-    </header>
     <main>
         <section class="hero">
             <h2>Vue d'ensemble</h2>
@@ -62,7 +44,3 @@
         </div>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2026 Production CESI Bike. Tous droits réservés.</p>
-    </footer>
-</body>
