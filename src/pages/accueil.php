@@ -3,6 +3,7 @@
     <section class="hero">
         <h1>Production Cesi Bike</h1>
         <p>Suivi des postes de travail et des temps opérateurs</p>
+        
     </section>
     <section class="stats">
         <div class="card">
