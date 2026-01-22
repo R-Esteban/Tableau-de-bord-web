@@ -1,8 +1,8 @@
 <?php
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'ungelast');
-define('DB_PASS', 'Manu4365');
+define('DB_USER', 'louis');
+define('DB_PASS', 'AZErty123@');
 define('DB_NAME', 'cesi_bike');
 
 try {
