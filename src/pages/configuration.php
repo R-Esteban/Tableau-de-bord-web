@@ -1,5 +1,39 @@
 <?php
 
+if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "add_poste") {
+
+    $dataDir = realpath(__DIR__ . "/../../data");
+    if ($dataDir === false) {
+        die("❌ Le dossier data n'existe pas. Crée-le manuellement.");
+    }
+
+    // Chercher le numéro du prochain poste
+    $files = glob($dataDir."/Poste*_stock.csv");
+    $maxPoste = 0;
+    foreach ($files as $file) {
+        if (preg_match('/Poste(\d+)_stock\.csv$/', $file, $matches)) {
+            $maxPoste = max($maxPoste, (int)$matches[1]);
+        }
+    }
+    $nouveauPoste = $maxPoste + 1;
+
+    // Créer un fichier stock vide
+    $stockFile = $dataDir . "/Poste{$nouveauPoste}_stock.csv";
+    $f = fopen($stockFile, "w");
+    if ($f !== false) {
+        fputcsv($f, ["Nom_piece", "Quantite_stock"]);
+        fclose($f);
+    }
+
+    // Créer un fichier étape vide
+    $etapeFile = $dataDir . "/Poste{$nouveauPoste}_Etape.csv";
+    $f = fopen($etapeFile, "w");
+    fclose($f);
+
+    echo "<p style='color:green;'>✅ Nouveau poste créé : Poste {$nouveauPoste}</p>";
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "save_stock") {
 
     $poste = $_POST["poste"] ?? 1;
@@ -120,14 +154,30 @@ function addPiece() {
 <section>
     <h2>1️⃣ Choix du poste</h2>
 
-    <form method="post">
-        <label for="poste">Poste de travail :</label>
-        <select name="poste" id="poste">
-            <option value="1">Poste 1</option>
-            <option value="2">Poste 2</option>
-            <option value="3">Poste 3</option>
-        </select>
-    </form>
+   <form method="post">
+    <label for="poste">Poste de travail :</label>
+    <select name="poste" id="poste">
+<?php
+$dataDir = realpath(__DIR__ . "/../../data");
+$files = glob($dataDir."/Poste*_stock.csv");
+$postes = [];
+foreach ($files as $file) {
+    if (preg_match('/Poste(\d+)_stock\.csv$/', $file, $matches)) {
+        $postes[] = (int)$matches[1];
+    }
+}
+sort($postes);
+foreach ($postes as $p):
+?>
+    <option value="<?= $p ?>">Poste <?= $p ?></option>
+<?php endforeach; ?>
+</select>
+
+
+    <input type="hidden" name="action" value="add_poste">
+    <button type="submit">➕ Ajouter un poste</button>
+</form>
+
 </section>
 
 
