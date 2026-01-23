@@ -95,7 +95,7 @@ if (file_exists($etapeFile)):
 <?php endfor; ?>
 </table>
 <?php if ($currentStep+1 < count($etapes)): ?>
-<a href="visualisation.php?poste=<?= $poste ?>&etape=<?= $currentStep+1 ?>">Suivant</a>
+<a href="/visualisation.php?poste=<?= $poste ?>&etape=<?= $currentStep+1 ?>">Suivant</a>
 <?php endif; ?>
 <?php endif; endif; ?>
 

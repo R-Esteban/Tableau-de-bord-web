@@ -8,14 +8,18 @@
     $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-    <h1>Home Page</h1>
+    <h1>Page d'Accueil</h1>
     <h2>Chaine de production</h2>
     <ul>
         <?php foreach ($positions as $position): ?>
             <li>
-                ID: <?= htmlspecialchars($position['ID_POSTE']) ?>,
-                Numéro de postes: <?= htmlspecialchars($position['NOM_POSTE']) ?>,
-                Numéro employés: <?= htmlspecialchars($position['ID_PERSONNE']) ?>
+               <p> ID: <?= htmlspecialchars($position['ID_POSTE']) ?>,</p>
+            </li>
+            <li>
+                <p>Numéro de postes: <?= htmlspecialchars($position['NOM_POSTE']) ?>,</p>
+            </li>
+            <li>
+               <p> Numéro employés: <?= htmlspecialchars($position['ID_PERSONNE']) ?></p>
             </li>
         <?php endforeach; ?>
     </ul>
