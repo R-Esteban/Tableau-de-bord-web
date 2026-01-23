@@ -1,232 +1,130 @@
 <?php
+// Connexion à la base de données
+require_once __DIR__ . '/../config/db.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "add_poste") {
-
-    $dataDir = realpath(__DIR__ . "/../../data");
-    if ($dataDir === false) {
-        die("❌ Le dossier data n'existe pas. Crée-le manuellement.");
-    }
-
-    // Chercher le numéro du prochain poste
-    $files = glob($dataDir."/Poste*_stock.csv");
-    $maxPoste = 0;
-    foreach ($files as $file) {
-        if (preg_match('/Poste(\d+)_stock\.csv$/', $file, $matches)) {
-            $maxPoste = max($maxPoste, (int)$matches[1]);
-        }
-    }
-    $nouveauPoste = $maxPoste + 1;
-
-    // Créer un fichier stock vide
-    $stockFile = $dataDir . "/Poste{$nouveauPoste}_stock.csv";
-    $f = fopen($stockFile, "w");
-    if ($f !== false) {
-        fputcsv($f, ["Nom_piece", "Quantite_stock"]);
-        fclose($f);
-    }
-
-    // Créer un fichier étape vide
-    $etapeFile = $dataDir . "/Poste{$nouveauPoste}_Etape.csv";
-    $f = fopen($etapeFile, "w");
-    fclose($f);
-
-    echo "<p style='color:green;'>✅ Nouveau poste créé : Poste {$nouveauPoste}</p>";
+// Exemple très simplifié de traitement du formulaire
+// (à adapter selon la structure réelle de votre base de données)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ici vous pourrez parcourir $_POST pour insérer en base
+    // Exemple : $_POST['postes'], $_POST['etapes'], $_POST['pieces']
+    
+    // echo '<pre>';
+    // print_r($_POST);
+    // echo '</pre>';
 }
-
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "save_stock") {
-
-    $poste = $_POST["poste"] ?? 1;
-    $pieces = $_POST["piece"] ?? [];
-    $quantites = $_POST["quantite"] ?? [];
-
-    // Chemin ABSOLU vers data
-    $dataDir = realpath(__DIR__ . "/../../data");
-
-    if ($dataDir === false) {
-        die("❌ Le dossier data n'existe pas. Crée-le manuellement.");
-    }
-
-    $filename = $dataDir . "/Poste{$poste}_stock.csv";
-
-    $file = fopen($filename, "w");
-    if ($file === false) {
-        die("❌ Impossible de créer le fichier CSV (droits insuffisants)");
-    }
-
-    fputcsv($file, ["Nom_piece", "Quantite_stock"]);
-
-    for ($i = 0; $i < count($pieces); $i++) {
-        if (!empty($pieces[$i]) && $quantites[$i] !== "") {
-            fputcsv($file, [$pieces[$i], $quantites[$i]]);
-        }
-    }
-
-    fclose($file);
-
-    echo "<p style='color:green;'>✅ Stock enregistré pour Poste {$poste}</p>";
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "save_etapes") {
-
-    $poste = $_POST["poste"] ?? 1;
-    $numero_etape = $_POST["numero_etape"] ?? 1;
-    $pieces = $_POST["piece"] ?? [];
-    $quantites = $_POST["quantite"] ?? [];
-
-    $dataDir = realpath(__DIR__ . "/../../data");
-    if ($dataDir === false) {
-        die("❌ Le dossier data n'existe pas. Crée-le manuellement.");
-    }
-
-    $filename = $dataDir . "/Poste{$poste}_Etape.csv";
-
-    $file = fopen($filename, "a"); // append pour ne pas écraser les étapes précédentes
-    if ($file === false) {
-        die("❌ Impossible de créer le fichier CSV (droits insuffisants)");
-    }
-
-    $row = [$numero_etape];
-    for ($i = 0; $i < count($pieces); $i++) {
-        if (!empty($pieces[$i]) && $quantites[$i] !== "") {
-            $row[] = $pieces[$i];
-            $row[] = $quantites[$i];
-        }
-    }
-
-    fputcsv($file, $row);
-    fclose($file);
-
-    echo "<p style='color:green;'>✅ Étape {$numero_etape} enregistrée pour Poste {$poste}</p>";
-}
-
 ?>
 
-
-<!DOCTYPE html>
-<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Configuration des postes</title>
+    <title>Configuration des postes de travail</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        section {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input, select, button {
-            margin-top: 5px;
-            padding: 5px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        fieldset { margin-bottom: 20px; padding: 15px; }
+        legend { font-weight: bold; }
+        .poste, .etape, .piece { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+        button { margin-top: 10px; }
+        label { display: block; margin-top: 5px; }
     </style>
 </head>
+<body>
+
+<h1>Configuration – Postes de travail</h1>
+
+<form method="post">
+
+    <label>
+        Nombre de postes de travail :
+        <input type="number" id="nbPostes" min="1" required>
+    </label>
+
+    <button type="button" onclick="genererPostes()">Créer les postes</button>
+
+    <div id="postesContainer"></div>
+
+    <button type="submit">Enregistrer la configuration</button>
+</form>
 
 <script>
-function addPiece() {
-    const container = document.querySelector('.pieces');
-    const newDiv = document.createElement('div');
-    newDiv.innerHTML = `
-        <label>Nom de la pièce :</label>
-        <input type="text" name="piece[]" required>
-        <label>Quantité utilisée :</label>
-        <input type="number" name="quantite[]" required min="1">
+function genererPostes() {
+    const nbPostes = document.getElementById('nbPostes').value;
+    const container = document.getElementById('postesContainer');
+    container.innerHTML = '';
+
+    for (let p = 1; p <= nbPostes; p++) {
+        const posteDiv = document.createElement('div');
+        posteDiv.className = 'poste';
+        posteDiv.innerHTML = `
+            <h3>Poste ${p}</h3>
+            <input type="hidden" name="postes[${p}][id]" value="${p}">
+
+            <label>Nombre d'étapes :
+                <input type="number" min="1" name="postes[${p}][nb_etapes]" 
+                       onchange="genererEtapes(${p}, this.value)" required>
+            </label>
+
+            <h4>Pièces en stock au début</h4>
+            <div id="piecesStock${p}"></div>
+            <button type="button" onclick="ajouterPieceStock(${p})">Ajouter une pièce</button>
+
+            <div id="etapesContainer${p}"></div>
+        `;
+        container.appendChild(posteDiv);
+    }
+}
+
+function ajouterPieceStock(poste) {
+    const container = document.getElementById('piecesStock' + poste);
+    const index = container.children.length;
+
+    const div = document.createElement('div');
+    div.className = 'piece';
+    div.innerHTML = `
+        <label>Nom de la pièce
+            <input type="text" name="postes[${poste}][stock][${index}][nom]" required>
+        </label>
+        <label>Quantité en stock
+            <input type="number" min="0" name="postes[${poste}][stock][${index}][quantite]" required>
+        </label>
     `;
-    container.appendChild(newDiv);
+    container.appendChild(div);
+}
+
+function genererEtapes(poste, nbEtapes) {
+    const container = document.getElementById('etapesContainer' + poste);
+    container.innerHTML = '';
+
+    for (let e = 1; e <= nbEtapes; e++) {
+        const etapeDiv = document.createElement('div');
+        etapeDiv.className = 'etape';
+        etapeDiv.innerHTML = `
+            <h4>Étape ${e}</h4>
+            <label>Numéro de l'étape
+                <input type="number" name="postes[${poste}][etapes][${e}][numero]" value="${e}" required>
+            </label>
+
+            <div id="piecesEtape${poste}_${e}"></div>
+            <button type="button" onclick="ajouterPieceEtape(${poste}, ${e})">Ajouter une pièce</button>
+        `;
+        container.appendChild(etapeDiv);
+    }
+}
+
+function ajouterPieceEtape(poste, etape) {
+    const container = document.getElementById(`piecesEtape${poste}_${etape}`);
+    const index = container.children.length;
+
+    const div = document.createElement('div');
+    div.className = 'piece';
+    div.innerHTML = `
+        <label>Nom de la pièce utilisée
+            <input type="text" name="postes[${poste}][etapes][${etape}][pieces][${index}][nom]" required>
+        </label>
+        <label>Nombre de pièces utilisées
+            <input type="number" min="1" name="postes[${poste}][etapes][${etape}][pieces][${index}][quantite]" required>
+        </label>
+    `;
+    container.appendChild(div);
 }
 </script>
 
-<body>
-
-<h1>Configuration des postes de travail</h1>
-
-<section>
-    <h2>1️⃣ Choix du poste</h2>
-
-   <form method="post">
-    <label for="poste">Poste de travail :</label>
-    <select name="poste" id="poste">
-<?php
-$dataDir = realpath(__DIR__ . "/../../data");
-$files = glob($dataDir."/Poste*_stock.csv");
-$postes = [];
-foreach ($files as $file) {
-    if (preg_match('/Poste(\d+)_stock\.csv$/', $file, $matches)) {
-        $postes[] = (int)$matches[1];
-    }
-}
-sort($postes);
-foreach ($postes as $p):
-?>
-    <option value="<?= $p ?>">Poste <?= $p ?></option>
-<?php endforeach; ?>
-</select>
-
-
-    <input type="hidden" name="action" value="add_poste">
-    <button type="submit">➕ Ajouter un poste</button>
-</form>
-
-</section>
-
-
-
-<section>
-    <h2>2️⃣ Stock initial</h2>
-
-    <form method="post">
-        <input type="hidden" name="action" value="save_stock">
-
-        <label>Nom de la pièce :</label>
-        <input type="text" name="piece[]" required>
-
-        <label>Quantité en stock :</label>
-        <input type="number" name="quantite[]" required>
-
-        <br><br>
-
-        <button type="submit">💾 Enregistrer le stock</button>
-    </form>
-</section>
-
-
-<section>
-    <h2>3️⃣ Étapes du poste</h2>
-
-    <form method="post">
-        <input type="hidden" name="action" value="save_etapes">
-
-        <label>Numéro de l'étape :</label>
-        <input type="number" name="numero_etape" required min="1">
-
-        <h3>Pièces utilisées</h3>
-
-        <div class="pieces">
-            <label>Nom de la pièce :</label>
-            <input type="text" name="piece[]" required>
-
-            <label>Quantité utilisée :</label>
-            <input type="number" name="quantite[]" required min="1">
-        </div>
-
-        <button type="button" onclick="addPiece()">➕ Ajouter une pièce</button>
-        <br><br>
-
-        <button type="submit">💾 Enregistrer l'étape</button>
-    </form>
-</section>
-
-
 </body>
-</html>
